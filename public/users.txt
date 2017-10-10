@@ -1,0 +1,14 @@
+User: Андрей, phone: 2123, datetime: 22, employee: Оболванщик.
+User: admin, phone: 23423, datetime: 23, employee: Опасный.
+User: Serg, phone: 1234, datetime: 23, employee: Оболванщик,
+    color: #51b749. 
+User: Fyhh, phone: 76456, datetime: 44, employee: Стригун,
+    color: #7bd148. 
+User: qweqwe, phone: qwe, datetime: qwe, employee: Стригун,
+    color: #7bd148. 
+User: ewwer, phone: werwr, datetime: werwr, employee: Стригун,
+    color: #7bd148. 
+User: were, phone: wqe, datetime: 3123, employee: Стригун,
+    color: #7bd148. 
+User: ewrwr, phone: werwr, datetime: we3423, employee: Стригун,
+    color: #7bd148. 
