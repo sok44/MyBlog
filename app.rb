@@ -23,8 +23,11 @@ configure do
 end
 
 get '/' do
-  erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>"
-end
+
+  @results = @db.execute 'SELECT * FROM Posts ORDER BY id DESC'
+
+  erb :index
+end 
 
 get '/new' do
   erb :new
@@ -38,6 +41,7 @@ post '/new' do
   end
 
   @db.execute 'INSERT INTO Posts (content, created_date) VALUES (?, datetime())', [content]
-  erb "You typed: #{content}"
+ 
+  redirect to '/'
 end
 
