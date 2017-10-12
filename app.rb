@@ -25,7 +25,6 @@ end
 get '/' do
 
   @results = @db.execute 'SELECT * FROM Posts ORDER BY id DESC'
-
   erb :index
 end 
 
@@ -43,5 +42,11 @@ post '/new' do
   @db.execute 'INSERT INTO Posts (content, created_date) VALUES (?, datetime())', [content]
  
   redirect to '/'
+end
+
+get '/details/:post_id' do
+  post_id = params[:post_id]
+
+  erb "Display info for post with id: #{post_id}"
 end
 
