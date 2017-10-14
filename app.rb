@@ -3,6 +3,10 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
+def check_parameters_empty hh
+  return hh.select {|key,_| params[key]  == ""}.values.join(", ")
+end
+
 def init_db
   @db = SQLite3::Database.new 'MyBlog.db'
   @db.results_as_hash = true
@@ -18,7 +22,8 @@ configure do
   (
     id INTEGER PRIMARY KEY AUTOINCREMENT, 
     created_date DATE, 
-    content TEXT
+    content TEXT,
+    author TEXT
   )'
 
    @db.execute 'CREATE TABLE IF NOT EXISTS Comments 
@@ -41,13 +46,20 @@ get '/new' do
 end
 
 post '/new' do
-  content = params[:content]
-  if content.length <= 0
-    @error = 'Ошибка: введите текст поста'
+  @content = params[:content]
+  @author = params[:author]
+
+  hh = {content: 'Введите текст поста',
+        author: 'Введите ваше имя (автора)'}
+  
+  my_error = check_parameters_empty hh
+
+  if my_error != ''
+    @error = my_error
     return erb :new
   end
 
-  @db.execute 'INSERT INTO Posts (content, created_date) VALUES (?, datetime())', [content]
+  @db.execute 'INSERT INTO Posts (created_date, content, author) VALUES (datetime(), ?, ?)', [@content, @author]
  
   redirect to '/'
 end
@@ -66,8 +78,24 @@ end
 post '/details/:post_id' do
   post_id = params[:post_id]
 
-  content = params[:content] 
+  @content = params[:content] 
 
+  hh = {content: 'Введите текст поста',
+        author: 'Введите ваше имя (автора)'}
+
+  my_error = check_parameters_empty hh
+
+  if my_error != ''
+    @error = my_error
+
+    results = @db.execute 'SELECT * FROM Posts WHERE id = ?', [post_id]
+    @row = results[0]
+    @comments =  @db.execute 'SELECT * FROM Comments WHERE post_id = ? ORDER BY id', [post_id]
+
+    return erb :details
+  end
+
+  
   @db.execute 'INSERT INTO Comments
     (
       post_id,
@@ -79,7 +107,7 @@ post '/details/:post_id' do
       ?,
       datetime(),
       ?
-    )', [post_id, content]
+    )', [post_id, @content]
 
     redirect to '/details/' + post_id
 end

@@ -1,8 +1,9 @@
 <h2> Add new post </h2>
 <p>
 	<form action="/new" method="POST" role="form">
-		<textarea name ="content" class="form-control" rows="9" placeholder="Type post text here." ></textarea>
-		
+		<textarea name ="content" class="form-control" rows="9" placeholder="Type post text here."><%= @content %></textarea>	
+		<br />
+		<input name ="author" type="text" class="form-control" placeholder="Ваше имя" value="<%= @author %>">
 		<br />
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>

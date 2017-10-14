@@ -3,6 +3,8 @@
 	<%= @row['content'] %>
 	<br />
 	<br />
+	Author: <%= @row['author'] %>
+	<br />
 	Added at:<%= @row['created_date'] %>
 	<br />
 </p>
@@ -19,7 +21,7 @@
 <% end %>
 <p>
 	<form action="/details/<%= @row['id'] %>" method="POST" role="form">
-		<textarea name ="content" class="form-control" rows="4" placeholder="Type comments text here." ></textarea>
+		<textarea name ="content" class="form-control" rows="4" placeholder="Type comments text here." ><%= @content %></textarea>
 		
 		<br />
 		<button type="submit" class="btn btn-primary">Submit</button>
